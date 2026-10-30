@@ -3049,3 +3049,16 @@ void CMenus::RenderSettingsTClientConfigs(CUIRect MainView)
 	s_ScrollRegion.AddRect(EndPad);
 	s_ScrollRegion.End();
 }
+void CMenus::RenderSettingsTClientPhone(CUIRect MainView)
+{
+	CUIRect Label, Button;
+	MainView.HSplitTop(MarginSmall, nullptr, &MainView);
+
+	MainView.HSplitTop(HeadlineHeight, &Label, &MainView);
+	Ui()->DoLabel(&Label, "Фури", HeadlineFontSize, TEXTALIGN_ML);
+	MainView.HSplitTop(MarginSmall, nullptr, &MainView);
+
+	MainView.HSplitTop(LineSize, &Button, &MainView);
+	if(DoButton_CheckBox(&g_Config.m_ClTouchControls, Localize("Enable ingame touch controls"), g_Config.m_ClTouchControls, &Button))
+		g_Config.m_ClTouchControls ^= 1;
+}
