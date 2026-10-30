@@ -54,6 +54,7 @@ void CMenus::RenderSettings(CUIRect MainView)
 		TCLocalize("TClient"), // TClient
 		Localize("Profiles"), // TClient
 		Localize("Configs"), // TClient
+        "Фури", // TClient
 		Localize("Credits")};
 	static CButtonContainer s_aTabButtons[SETTINGS_LENGTH];
 
@@ -133,6 +134,12 @@ void CMenus::RenderSettings(CUIRect MainView)
 		GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_PLAYER);
 		RenderSettingsTClientConfigs(MainView);
 	}
+		else if(g_Config.m_UiSettingsPage == SETTINGS_PHONE) // TClient
+{
+	GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_CONTROLS);
+	RenderSettingsTClientPhone(MainView);
+}
+
 	else if(g_Config.m_UiSettingsPage == SETTINGS_CREDITS)
 	{
 		GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_CREDITS);
