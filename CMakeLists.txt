@@ -1705,6 +1705,8 @@ set(EXPECTED_DATA
   fonts/NotoEmoji-Regular.ttf
   fonts/SourceHanSans.ttc
   fonts/index.json
+  furi_mascot.png
+  furi_tee.png
   game.png
   gui_buttons.png
   gui_cursor.png
