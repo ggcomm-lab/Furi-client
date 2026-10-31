@@ -8,6 +8,7 @@
 #include <engine/keys.h>
 #include <engine/serverbrowser.h>
 #include <engine/shared/config.h>
+#include <engine/storage.h>
 #include <engine/textrender.h>
 
 #include <generated/client_data.h>
@@ -32,6 +33,26 @@ void CMenusStart::RenderStartMenu(CUIRect MainView)
 	IGraphics::CQuadItem QuadItem(MainView.w / 2 - 170, 60, 360, 103);
 	Graphics()->QuadsDrawTL(&QuadItem, 1);
 	Graphics()->QuadsEnd();
+
+	// Furi: картинка в левом верхнем углу
+	{
+		static IGraphics::CTextureHandle s_FuriMascot;
+		static bool s_FuriMascotTried = false;
+		if(!s_FuriMascotTried)
+		{
+			s_FuriMascotTried = true;
+			s_FuriMascot = Graphics()->LoadTexture("furi_mascot.png", IStorage::TYPE_ALL);
+		}
+		if(s_FuriMascot.IsValid())
+		{
+			Graphics()->TextureSet(s_FuriMascot);
+			Graphics()->QuadsBegin();
+			Graphics()->SetColor(1, 1, 1, 1);
+			IGraphics::CQuadItem FuriQuad(10.0f, 10.0f, 103.0f, 110.0f);
+			Graphics()->QuadsDrawTL(&FuriQuad, 1);
+			Graphics()->QuadsEnd();
+		}
+	}
 
 	const float Rounding = 10.0f;
 	const float VMargin = MainView.w / 2 - 190.0f;
