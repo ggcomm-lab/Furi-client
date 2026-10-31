@@ -52,16 +52,21 @@ void CMenus::RenderSettings(CUIRect MainView)
 		Localize("DDNet"),
 		Localize("Assets"),
 		TCLocalize("TClient"), // TClient
+		"Фури", // TClient
 		Localize("Profiles"), // TClient
 		Localize("Configs"), // TClient
-        "Фури", // TClient
 		Localize("Credits")};
 	static CButtonContainer s_aTabButtons[SETTINGS_LENGTH];
 
+	// компактная колонка вкладок: все кнопки помещаются на экране
+	const float TabPitch = minimum(36.0f, TabBar.h / (float)SETTINGS_LENGTH);
+	const float TabHeight = minimum(26.0f, TabPitch * 0.72f);
+	const float TabSpacing = TabPitch - TabHeight;
+
 	for(int i = 0; i < SETTINGS_LENGTH; i++)
 	{
-		TabBar.HSplitTop(10.0f, nullptr, &TabBar);
-		TabBar.HSplitTop(26.0f, &Button, &TabBar);
+		TabBar.HSplitTop(TabSpacing, nullptr, &TabBar);
+		TabBar.HSplitTop(TabHeight, &Button, &TabBar);
 		if(DoButton_MenuTab(&s_aTabButtons[i], apTabs[i], g_Config.m_UiSettingsPage == i, &Button, IGraphics::CORNER_R, &m_aAnimatorsSettingsTab[i]))
 			g_Config.m_UiSettingsPage = i;
 	}
@@ -134,12 +139,11 @@ void CMenus::RenderSettings(CUIRect MainView)
 		GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_PLAYER);
 		RenderSettingsTClientConfigs(MainView);
 	}
-		else if(g_Config.m_UiSettingsPage == SETTINGS_PHONE) // TClient
-{
-	GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_CONTROLS);
-	RenderSettingsTClientPhone(MainView);
-}
-
+	else if(g_Config.m_UiSettingsPage == SETTINGS_PHONE) // TClient
+	{
+		GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_CONTROLS);
+		RenderSettingsTClientPhone(MainView);
+	}
 	else if(g_Config.m_UiSettingsPage == SETTINGS_CREDITS)
 	{
 		GameClient()->m_MenuBackground.ChangePosition(CMenuBackground::POS_SETTINGS_CREDITS);

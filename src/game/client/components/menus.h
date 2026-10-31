@@ -718,9 +718,9 @@ public:
 		SETTINGS_DDNET,
 		SETTINGS_ASSETS,
 		SETTINGS_TCLIENT, // TClient
+		SETTINGS_PHONE, // TClient
 		SETTINGS_PROFILES, // TClient
 		SETTINGS_CONFIGS, // TClient
-        SETTINGS_PHONE, // TClient
 		SETTINGS_CREDITS,
 		SETTINGS_LENGTH,
 	};
@@ -877,7 +877,7 @@ private:
 	void RenderSettingsTClientStatusBar(CUIRect MainView);
 	void RenderSettingsTClientProfiles(CUIRect MainView);
 	void RenderSettingsTClientConfigs(CUIRect MainView);
-    void RenderSettingsTClientPhone(CUIRect MainView);
+	void RenderSettingsTClientPhone(CUIRect MainView);
 	void RenderTeeCute(const CAnimState *pAnim, const CTeeRenderInfo *pInfo, int Emote, vec2 Dir, vec2 Pos, bool CuteEyes, float Alpha = 1.0f);
 
 	// TClient
