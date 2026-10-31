@@ -14,6 +14,8 @@
 #include <game/client/ui.h>
 #include <game/localization.h>
 
+#include <algorithm>
+
 void CMenus::SetNeedSendInfo()
 {
 	if(m_Dummy)
@@ -59,8 +61,8 @@ void CMenus::RenderSettings(CUIRect MainView)
 	static CButtonContainer s_aTabButtons[SETTINGS_LENGTH];
 
 	// компактная колонка вкладок: все кнопки помещаются на экране
-	const float TabPitch = minimum(36.0f, TabBar.h / (float)SETTINGS_LENGTH);
-	const float TabHeight = minimum(26.0f, TabPitch * 0.72f);
+	const float TabPitch = std::min(36.0f, TabBar.h / (float)SETTINGS_LENGTH);
+	const float TabHeight = std::min(26.0f, TabPitch * 0.72f);
 	const float TabSpacing = TabPitch - TabHeight;
 
 	for(int i = 0; i < SETTINGS_LENGTH; i++)
