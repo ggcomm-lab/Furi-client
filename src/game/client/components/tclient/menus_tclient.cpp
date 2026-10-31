@@ -3049,16 +3049,57 @@ void CMenus::RenderSettingsTClientConfigs(CUIRect MainView)
 	s_ScrollRegion.AddRect(EndPad);
 	s_ScrollRegion.End();
 }
+
 void CMenus::RenderSettingsTClientPhone(CUIRect MainView)
 {
-	CUIRect Label, Button;
-	MainView.HSplitTop(MarginSmall, nullptr, &MainView);
+	enum
+	{
+		PHONE_TAB_MISC = 0,
+		PHONE_TAB_AVOID,
+		PHONE_TAB_TAS,
+		PHONE_TAB_FNG,
+		PHONE_TAB_VISUAL,
+		PHONE_TAB_SHADERS,
+		PHONE_TAB_ABOUT,
+		NUM_PHONE_TABS
+	};
+	static int s_CurPhoneTab = PHONE_TAB_MISC;
+	static CButtonContainer s_aPhoneTabs[NUM_PHONE_TABS] = {};
+	const char *apPhoneTabNames[NUM_PHONE_TABS] = {"Misc", "Avoid", "TAS", "FNG", "Visual", "Shaders", "About"};
+
+	CUIRect TabBar, Button, Label;
+	MainView.HSplitTop(LineSize, &TabBar, &MainView);
+	const float TabWidth = TabBar.w / NUM_PHONE_TABS;
+	for(int Tab = 0; Tab < NUM_PHONE_TABS; ++Tab)
+	{
+		TabBar.VSplitLeft(TabWidth, &Button, &TabBar);
+		const int Corners = Tab == 0 ? IGraphics::CORNER_L : Tab == NUM_PHONE_TABS - 1 ? IGraphics::CORNER_R :
+												   IGraphics::CORNER_NONE;
+		if(DoButton_MenuTab(&s_aPhoneTabs[Tab], apPhoneTabNames[Tab], s_CurPhoneTab == Tab, &Button, Corners, nullptr, nullptr, nullptr, nullptr, 4.0f))
+			s_CurPhoneTab = Tab;
+	}
+	MainView.HSplitTop(Margin, nullptr, &MainView);
 
 	MainView.HSplitTop(HeadlineHeight, &Label, &MainView);
-	Ui()->DoLabel(&Label, "Фури", HeadlineFontSize, TEXTALIGN_ML);
+	Ui()->DoLabel(&Label, apPhoneTabNames[s_CurPhoneTab], HeadlineFontSize, TEXTALIGN_ML);
 	MainView.HSplitTop(MarginSmall, nullptr, &MainView);
 
-	MainView.HSplitTop(LineSize, &Button, &MainView);
-	if(DoButton_CheckBox(&g_Config.m_ClTouchControls, Localize("Enable ingame touch controls"), g_Config.m_ClTouchControls, &Button))
-		g_Config.m_ClTouchControls ^= 1;
+	if(s_CurPhoneTab == PHONE_TAB_MISC)
+	{
+		MainView.HSplitTop(LineSize, &Button, &MainView);
+		if(DoButton_CheckBox(&g_Config.m_ClTouchControls, Localize("Enable ingame touch controls"), g_Config.m_ClTouchControls, &Button))
+			g_Config.m_ClTouchControls ^= 1;
+	}
+	else if(s_CurPhoneTab == PHONE_TAB_ABOUT)
+	{
+		MainView.HSplitTop(LineSize, &Label, &MainView);
+		Ui()->DoLabel(&Label, "Furi client", FontSize, TEXTALIGN_ML);
+		MainView.HSplitTop(LineSize, &Label, &MainView);
+		Ui()->DoLabel(&Label, "Based on TClient / DDNet", FontSize, TEXTALIGN_ML);
+	}
+	else
+	{
+		MainView.HSplitTop(LineSize, &Label, &MainView);
+		Ui()->DoLabel(&Label, "Soon", FontSize, TEXTALIGN_ML);
+	}
 }
